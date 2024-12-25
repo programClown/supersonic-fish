@@ -94,6 +94,4 @@ pnpm lint
 
 ## 站在巨人的肩膀上
 
-- [electron-vite-vue](https://github.com/electron-vite/electron-vite-vue)
-- [electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
-- [fast-vue3](https://github.com/study-vue3/fast-vue3)
+- [v3-electron-vite](https://github.com/un-pany/v3-electron-vite.git)
