@@ -1,0 +1,155 @@
+{
+  "name": "spuersonic-fish",
+  "version": "0.1.0",
+  "description": "摸鱼王",
+  "author": {
+    "name": "fish king",
+    "email": "fish@supersonic.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/programClown/spuersonic-fish.git"
+  },
+  "homepage": "https://github.com/programClown",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "env": {
+    "host": "127.0.0.1",
+    "port": 13333
+  },
+  "scripts": {
+    "set-utf-8": "node -e \" process.platform === 'win32' && require('child_process').exec('chcp 65001'); \"",
+    "dev": "pnpm set-utf-8 && vite",
+    "build": "vite build && electron-builder",
+    "build:dir": "vite build && electron-builder --dir",
+    "build:linux": "vite build && electron-builder --linux",
+    "build:macos": "vite build && electron-builder --macos",
+    "build:win-x64": "vite build && electron-builder --win --x64",
+    "build:win-x32": "vite build && electron-builder --win --ia32",
+    "lint:prettier": "prettier --write \"{script,src,types}/**/*.{vue,js,jsx,ts,tsx,json,css,less,scss,html,md}\"",
+    "lint": "pnpm lint:eslint && pnpm lint:prettier"
+  },
+  "build": {
+    "productName": "spuersonic-fish",
+    "appId": "com.app.spuersonic-fish",
+    "directories": {
+      "output": "release/v${version}-${platform}"
+    },
+    "files": [
+      "dist/**/*",
+      "static/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "static/icons/logo.png",
+        "to": "${productName}.png"
+      }
+    ],
+    "publish": [
+      {
+        "provider": "generic",
+        "url": ""
+      }
+    ],
+    "asar": true,
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "shortcutName": "${productName}",
+      "uninstallDisplayName": "${productName}",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": true,
+      "allowToChangeInstallationDirectory": true
+    },
+    "win": {
+      "icon": "static/icons/logo_256x256.ico",
+      "artifactName": "${productName} v${version} ${arch}.${ext}",
+      "requestedExecutionLevel": "requireAdministrator",
+      "signtoolOptions": {
+        "sign": null
+      }
+    },
+    "dmg": {
+      "sign": false
+    },
+    "pkg": {
+      "allowAnywhere": false,
+      "isRelocatable": false,
+      "isVersionChecked": false
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "static/icons/logo_256x256.icns",
+      "artifactName": "${productName} v${version} MacOS ${arch}.${ext}",
+      "identity": null,
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "linux": {
+      "category": "Utility",
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "static/icons/logo_256x256.png",
+      "artifactName": "${productName} v${version} ${platform} ${arch}.${ext}",
+      "desktop": {
+        "Icon": "/opt/v3-electron-vite/resources/v3-electron-vite.png"
+      }
+    }
+  },
+  "dependencies": {
+    "@electron/remote": "2.1.2",
+    "@element-plus/icons-vue": "2.3.1",
+    "axios": "1.7.7",
+    "dayjs": "1.11.13",
+    "electron-log": "5.2.3",
+    "element-plus": "2.8.8",
+    "iconv-lite": "0.6.3",
+    "lodash-es": "4.17.21",
+    "mitt": "3.0.1",
+    "normalize.css": "8.0.1",
+    "nprogress": "0.2.0",
+    "path-browserify": "1.0.1",
+    "path-to-regexp": "8.2.0",
+    "pinia": "2.2.6",
+    "screenfull": "6.0.2",
+    "vue": "3.5.13",
+    "vue-router": "4.4.5",
+    "vxe-table": "4.6.23",
+    "vxe-table-plugin-element": "4.0.4",
+    "xe-utils": "3.5.31"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "4.17.12",
+    "@types/node": "22.10.1",
+    "@types/nprogress": "0.2.3",
+    "@types/path-browserify": "1.0.3",
+    "@vitejs/plugin-vue": "5.2.0",
+    "@vitejs/plugin-vue-jsx": "4.1.0",
+    "electron": "33.2.1",
+    "electron-builder": "25.1.8",
+    "prettier": "3.3.3",
+    "sass": "1.78.0",
+    "typescript": "5.6.3",
+    "vite": "5.4.11",
+    "vite-electron-plugin": "0.8.3",
+    "vite-plugin-svg-icons": "2.0.1",
+    "vite-svg-loader": "5.1.0",
+    "vue-tsc": "2.1.10"
+  },
+  "keywords": [
+    "vue3",
+    "vite",
+    "electron",
+    "pinia",
+    "rollup"
+  ],
+  "license": "MIT"
+}
