@@ -75,7 +75,7 @@ export default class WinMain {
 
     // 启用 remote
     remote.enable(this.winInst.webContents)
-    // AppConfig.IS_DEV_MODE && this.openDevtool()
+    AppConfig.IS_DEV_MODE && this.openDevtool()
 
     // 窗口-准备好显示
     // 在窗口的控制台中使用 F5 刷新时，也会触发该事件
