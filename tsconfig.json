@@ -43,5 +43,5 @@
     "vite.config.mts"
   ],
   /** 编译器默认排除的编译文件 */
-  "exclude": ["node_modules", "dist", "release"]
+  "exclude": ["node_modules", "dist", "release", "server"]
 }

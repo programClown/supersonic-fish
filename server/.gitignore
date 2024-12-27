@@ -1,0 +1,17 @@
+__pycache__/
+.idea/
+.venv/
+.mypy_cache/
+.vscode
+.ruff_cache/
+.pytest_cache/
+migrations/
+
+app.egg-info
+*.pyc
+.coverage
+htmlcov
+.cache
+
+.DS_Store
+._.DS_Store
