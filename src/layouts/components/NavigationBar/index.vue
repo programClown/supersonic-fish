@@ -14,6 +14,7 @@ import Screenfull from "@/components/Screenfull/index.vue"
 import SearchMenu from "@/components/SearchMenu/index.vue"
 import { useDevice } from "@/hooks/useDevice"
 import { useLayoutMode } from "@/hooks/useLayoutMode"
+const { ipcRenderer } = require("electron")
 
 const { isMobile } = useDevice()
 const { isTop } = useLayoutMode()
@@ -69,6 +70,7 @@ const logout = () => {
           </el-dropdown-menu>
         </template>
       </el-dropdown>
+      <el-button type="danger" @click="ipcRenderer.send('close')">X</el-button>
     </div>
   </div>
 </template>

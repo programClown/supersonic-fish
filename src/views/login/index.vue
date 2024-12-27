@@ -9,7 +9,6 @@ import { type LoginRequestData } from "@/api/login/types/login"
 import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
 import Owl from "./components/Owl.vue"
 import { useFocus } from "./hooks/useFocus"
-import { bindDragEvent } from "@/../electron/core/BindDragEvent"
 const { ipcRenderer } = require("electron")
 
 const router = useRouter()
