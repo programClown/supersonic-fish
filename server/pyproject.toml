@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "aerich>=0.8.0",
+    "argon2-cffi>=23.1.0",
     "bcrypt>=4.2.1",
     "email-validator>=2.2.0",
     "fastapi[standard]>=0.115.6",
@@ -14,6 +15,7 @@ dependencies = [
     "pydantic>=2.10.4",
     "pydantic-settings>=2.7.0",
     "pyjwt>=2.10.1",
+    "setuptools>=75.6.0",
     "tortoise-orm>=0.23.0",
     "uvicorn>=0.34.0",
 ]

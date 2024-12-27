@@ -3,7 +3,7 @@
  */
 
 import * as remote from "@electron/remote/main"
-import { ipcMain, BrowserWindow, type BrowserWindowConstructorOptions } from "electron"
+import { app, ipcMain, BrowserWindow, type BrowserWindowConstructorOptions, dialog } from "electron"
 import { LocalLogger } from "./AppLogger"
 import { AppConfig } from "./AppConfig"
 import IpcDict from "../tool/ipc-dict"
@@ -75,7 +75,7 @@ export default class WinMain {
 
     // 启用 remote
     remote.enable(this.winInst.webContents)
-    AppConfig.IS_DEV_MODE && this.openDevtool()
+    // AppConfig.IS_DEV_MODE && this.openDevtool()
 
     // 窗口-准备好显示
     // 在窗口的控制台中使用 F5 刷新时，也会触发该事件
@@ -95,6 +95,14 @@ export default class WinMain {
       this.printf("[main.win.已关闭]", "<closed>")
       this.winInst?.removeAllListeners()
       this.winInst = null
+    })
+
+    this.winInst.on("move", () => {
+      this.printf("[main.win.在移动]", "<move>")
+    })
+
+    this.winInst.on("resize", () => {
+      this.printf("[main.win.大小变化]", "<resize>")
     })
   }
 
@@ -124,6 +132,66 @@ export default class WinMain {
       if (!this.winInst || !args || !args.channel) return
       this.printf("[main.win.事件总线]", args)
       this.sendToRenderer(args.channel, args.data)
+    })
+    //放大缩小
+    ipcMain.on("min", (e) => this.winInst.minimize())
+    ipcMain.on("window-maximize", (e) => {
+      if (this.winInst.isFullScreen()) {
+        this.winInst.setFullScreen(false)
+      } else if (this.winInst.isMaximized()) {
+        this.winInst.unmaximize()
+      } else {
+        this.winInst.maximize()
+      }
+    })
+    ipcMain.on("close", (e) => this.winInst.close())
+    ipcMain.on("reload", (e) => this.winInst.reload())
+
+    // new window example arg: new windows url
+    ipcMain.handle("open-win", (event, arg) => {
+      const childWindow = new BrowserWindow({
+        icon: AppConfig.getAppLogo(), // 图标
+        title: "new window", // 如果由 loadURL() 加载的 HTML 文件中含有标签 <title>，此属性将被忽略
+        minWidth: 600,
+        minHeight: 480,
+        frame: false, // 是否有边框
+        center: true, // 是否在屏幕居中
+        resizable: true, // 是否允许拉伸大小
+        backgroundColor: "transparent", // 背景颜色
+        webPreferences: {
+          devTools: true, // 是否开启 DevTools, 如果设置为 false（默认值为 true）, 则无法使用 BrowserWindow.webContents.openDevTools()
+          webSecurity: false, // 当设置为 false, 将禁用同源策略
+          nodeIntegration: true, // 是否启用 Node 集成
+          contextIsolation: false, // 是否在独立 JavaScript 环境中运行 Electron API 和指定的 preload 脚本，默认为 true
+          nodeIntegrationInWorker: true, // 是否在 Web 工作器中启用了 Node 集成
+          backgroundThrottling: false, // 是否在页面成为背景时限制动画和计时器，默认值为 true
+          spellcheck: false // 是否启用内置拼写检查器
+        }
+      })
+
+      this.winInst.removeMenu()
+      if (AppConfig.IS_DEV_MODE) {
+        childWindow.loadURL(AppConfig.getWinUrl())
+      } else {
+        childWindow.loadFile(AppConfig.getWinUrl())
+      }
+    })
+
+    // Get desktop path
+    ipcMain.on("getDesktopPath", async (event) => {
+      event.returnValue = app.getPath("desktop")
+    })
+
+    ipcMain.handle("openFolderSelector", async (event) => {
+      const path = dialog.showOpenDialogSync(this.winInst, {
+        defaultPath: app.getPath("desktop"),
+        properties: ["openDirectory"]
+      })
+      return path
+    })
+
+    ipcMain.on("window_move", (event, x, y) => {
+      if (!this.winInst.getWinPos()) return
     })
   }
 }

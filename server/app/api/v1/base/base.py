@@ -5,7 +5,7 @@ from fastapi import APIRouter
 from app.controllers.user import user_controller
 from app.core.ctx import CTX_USER_ID
 from app.core.dependency import DependAuth
-from app.models.admin import Api, Menu, Role, User
+from app.models.admin import Api, User
 from app.schemas.base import Fail, Success
 from app.schemas.login import *
 from app.schemas.users import UpdatePassword

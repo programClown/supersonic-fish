@@ -6,7 +6,6 @@ import { createSvgIconsPlugin } from "vite-plugin-svg-icons"
 import svgLoader from "vite-svg-loader"
 import electron from "vite-electron-plugin"
 import { loadViteEnv } from "vite-electron-plugin/plugin"
-import mockDevServerPlugin from "vite-plugin-mock-dev-server"
 import { rmSync } from "fs"
 import pkg from "./package.json"
 
@@ -33,14 +32,6 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       /** 预热常用文件，提高初始页面加载速度 */
       warmup: {
         clientFiles: ["./src/layouts/**/*.vue"]
-      },
-      proxy: {
-        /** 代理前缀为 /mock 的请求  */
-        [env.VITE_APP_BASE_URL]: {
-          changeOrigin: true,
-          target: env.VITE_APP_API_URL, // 接口地址
-          rewrite: (path) => path.replace(new RegExp("^" + env.VITE_APP_BASE_URL), "")
-        }
       }
     },
     build: {
@@ -78,12 +69,6 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     /** Vite 插件 */
     plugins: [
       vue(),
-      env.VITE_USE_MOCK === "true"
-        ? mockDevServerPlugin({
-            log: "debug",
-            reload: true
-          })
-        : null,
       vueJsx(),
       /** 将 SVG 静态图转化为 Vue 组件 */
       svgLoader({ defaultImport: "url" }),
@@ -97,7 +82,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       }),
       electron({
         outDir: "dist",
-        include: ["script"],
+        include: ["electron"],
         transformOptions: { sourcemap: false },
         plugins: [
           {

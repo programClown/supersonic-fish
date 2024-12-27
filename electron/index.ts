@@ -1,4 +1,4 @@
-import NodeOS from "os"
+import NodeOS, { release } from "os"
 import { app, Menu } from "electron"
 import { LocalLogger } from "./core/AppLogger"
 import { AppConfig } from "./core/AppConfig"
@@ -39,8 +39,8 @@ process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "false"
 process.on("uncaughtException", handleProcessError)
 process.on("unhandledRejection", handleProcessError)
 
-// 禁用 硬件加速
-app.disableHardwareAcceleration()
+// 禁用 硬件加速 win7
+if (release().startsWith("6.1")) app.disableHardwareAcceleration()
 // // 禁用 Chromium 沙盒
 // app.commandLine.appendSwitch("no-sandbox")
 // 忽略证书相关错误
@@ -59,6 +59,9 @@ app.commandLine.appendSwitch("ignore-certificate-errors")
 app.commandLine.appendSwitch("disable-http-cache")
 // 禁用动画, 解决透明窗口打开闪烁问题
 app.commandLine.appendSwitch("wm-window-animations-disabled")
+
+// Set application name for Windows 10+ notifications
+if (process.platform === "win32") app.setAppUserModelId(app.getName())
 
 // 禁用默认系统菜单
 Menu.setApplicationMenu(Menu.buildFromTemplate([]))

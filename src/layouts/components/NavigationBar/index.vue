@@ -75,12 +75,14 @@ const logout = () => {
 
 <style lang="scss" scoped>
 .navigation-bar {
+  -webkit-app-region: drag;
   height: var(--v3-navigationbar-height);
   overflow: hidden;
   color: var(--v3-navigationbar-text-color);
   display: flex;
   justify-content: space-between;
   .hamburger {
+    -webkit-app-region: no-drag;
     display: flex;
     align-items: center;
     height: 100%;
@@ -110,6 +112,7 @@ const logout = () => {
     }
   }
   .right-menu {
+    -webkit-app-region: no-drag;
     margin-right: 10px;
     height: 100%;
     display: flex;

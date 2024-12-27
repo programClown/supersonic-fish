@@ -31,7 +31,7 @@ class Settings(BaseSettings):
             "sqlite": {
                 "engine": "tortoise.backends.sqlite",
                 "credentials": {
-                    "file_path": f"{BASE_DIR}/db.sqlite3"
+                    "file_path": f"{BASE_DIR}/db/db.sqlite3"
                 },  # Path to SQLite database file
             },
             # MySQL/MariaDB configuration

@@ -9,6 +9,8 @@ import { type LoginRequestData } from "@/api/login/types/login"
 import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
 import Owl from "./components/Owl.vue"
 import { useFocus } from "./hooks/useFocus"
+import { bindDragEvent } from "@/../electron/core/BindDragEvent"
+const { ipcRenderer } = require("electron")
 
 const router = useRouter()
 const { isFocus, handleBlur, handleFocus } = useFocus()
@@ -74,7 +76,7 @@ createCode()
 
 <template>
   <div class="login-container">
-    <el-button class="close-button">X</el-button>
+    <el-button type="danger" class="close-button" @click="ipcRenderer.send('close')">X</el-button>
     <ThemeSwitch class="theme-switch" />
     <Owl :close-eyes="isFocus" />
     <div class="login-card">
@@ -141,6 +143,7 @@ createCode()
 
 <style lang="scss" scoped>
 .login-container {
+  -webkit-app-region: drag;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -148,12 +151,14 @@ createCode()
   width: 100%;
   min-height: 100%;
   .close-button {
+    -webkit-app-region: no-drag;
     position: fixed;
     top: 4%;
     right: 1%;
     cursor: pointer;
   }
   .theme-switch {
+    -webkit-app-region: no-drag;
     position: fixed;
     top: 5%;
     right: 7%;
@@ -176,6 +181,7 @@ createCode()
       }
     }
     .content {
+      -webkit-app-region: no-drag;
       padding: 20px 50px 50px 50px;
       :deep(.el-input-group__append) {
         padding: 0;
