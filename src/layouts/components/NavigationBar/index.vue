@@ -14,7 +14,7 @@ import Screenfull from "@/components/Screenfull/index.vue"
 import SearchMenu from "@/components/SearchMenu/index.vue"
 import { useDevice } from "@/hooks/useDevice"
 import { useLayoutMode } from "@/hooks/useLayoutMode"
-const { ipcRenderer } = require("electron")
+import { ref } from "vue"
 
 const { isMobile } = useDevice()
 const { isTop } = useLayoutMode()
@@ -29,10 +29,33 @@ const toggleSidebar = () => {
   appStore.toggleSidebar(false)
 }
 
+let isMax = ref<boolean>(false)
+let normalMaxSvgName = ref("maximize")
+let normalMaxTips = ref("最大化")
+
 /** 登出 */
 const logout = () => {
   userStore.logout()
   router.push("/login")
+}
+
+const miniWindow = () => {
+  window.vIpcRenderer.send("min")
+}
+
+const updateWindowState = async () => {
+  isMax.value = await window.vIpcRenderer.invoke("is-maximize")
+  normalMaxSvgName.value = isMax.value ? "normal-size" : "maximize"
+  normalMaxTips.value = isMax.value ? "最大化" : "正常"
+}
+
+const normalMaxWindow = () => {
+  updateWindowState()
+  window.vIpcRenderer.send("window-maximize")
+}
+
+const closeWindow = () => {
+  window.vIpcRenderer.send("close")
 }
 </script>
 
@@ -70,7 +93,18 @@ const logout = () => {
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <el-button type="danger" @click="ipcRenderer.send('close')">X</el-button>
+
+      <el-tooltip effect="dark" content="最小化" placement="bottom">
+        <SvgIcon class="svg-icon" name="minimizing" @click="miniWindow" />
+      </el-tooltip>
+
+      <el-tooltip effect="dark" :content="normalMaxTips" placement="bottom">
+        <SvgIcon class="svg-icon" :name="normalMaxSvgName" @click="normalMaxWindow" />
+      </el-tooltip>
+
+      <el-tooltip effect="dark" content="关闭" placement="bottom">
+        <SvgIcon class="close-icon svg-icon" name="close" @click="closeWindow" />
+      </el-tooltip>
     </div>
   </div>
 </template>
@@ -133,6 +167,18 @@ const logout = () => {
         }
       }
     }
+  }
+  .svg-icon {
+    margin-right: 4px;
+    padding: 4px;
+    font-size: 28px;
+    &:focus {
+      outline: none;
+    }
+  }
+  .close-icon:hover {
+    background-color: rgba(232, 17, 35, 1);
+    border: 1px;
   }
 }
 </style>

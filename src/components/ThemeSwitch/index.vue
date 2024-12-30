@@ -30,7 +30,7 @@ const handleChangeTheme = ({ clientX, clientY }: MouseEvent, themeName: ThemeNam
       </el-tooltip>
     </div>
     <template #dropdown>
-      <el-dropdown-menu>
+      <el-dropdown-menu class="menu-drag">
         <el-dropdown-item
           v-for="(theme, index) in themeList"
           :key="index"
@@ -43,3 +43,9 @@ const handleChangeTheme = ({ clientX, clientY }: MouseEvent, themeName: ThemeNam
     </template>
   </el-dropdown>
 </template>
+
+<style lang="scss" scoped>
+.menu-drag {
+  -webkit-app-region: no-drag;
+}
+</style>

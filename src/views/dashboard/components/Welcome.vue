@@ -1,8 +1,12 @@
 <template>
   <div class="app-container center">
-    <el-empty description="欢迎来到 editor 角色专属首页" />
+    <el-image :src="srcImg"> </el-image>
   </div>
 </template>
+
+<script lang="ts" setup>
+import srcImg from "@/assets/layouts/logo.png"
+</script>
 
 <style lang="scss" scoped>
 .center {

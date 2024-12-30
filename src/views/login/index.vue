@@ -69,13 +69,20 @@ const createCode = () => {
   })
 }
 
+const closeWindow = () => {
+  window.vIpcRenderer.send("close")
+}
+
 /** 初始化验证码 */
 createCode()
 </script>
 
 <template>
   <div class="login-container">
-    <el-button type="danger" class="close-button" @click="ipcRenderer.send('close')">X</el-button>
+    <el-tooltip effect="dark" content="关闭" placement="bottom">
+      <SvgIcon class="close-icon" name="close" @click="closeWindow" />
+    </el-tooltip>
+
     <ThemeSwitch class="theme-switch" />
     <Owl :close-eyes="isFocus" />
     <div class="login-card">
@@ -149,12 +156,21 @@ createCode()
   align-items: center;
   width: 100%;
   min-height: 100%;
-  .close-button {
-    -webkit-app-region: no-drag;
+  .close-icon {
     position: fixed;
-    top: 4%;
-    right: 1%;
+    padding: 4px;
+    top: 4.5%;
+    right: 3%;
     cursor: pointer;
+    -webkit-app-region: no-drag;
+    font-size: 28px;
+    &:focus {
+      outline: none;
+    }
+  }
+  .close-icon:hover {
+    background-color: rgba(232, 17, 35, 1);
+    border: 1px;
   }
   .theme-switch {
     -webkit-app-region: no-drag;
@@ -163,6 +179,7 @@ createCode()
     right: 7%;
     cursor: pointer;
   }
+
   .login-card {
     width: 480px;
     max-width: 90%;

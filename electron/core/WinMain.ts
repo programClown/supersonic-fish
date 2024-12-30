@@ -31,6 +31,7 @@ export default class WinMain {
     fullscreenable: true, // 是否允许全屏
     autoHideMenuBar: true, // 自动隐藏菜单栏, 除非按了 Alt 键, 默认值为 false
     backgroundColor: "transparent", // 背景颜色
+    titleBarStyle: "hiddenInset",
     webPreferences: {
       devTools: true, // 是否开启 DevTools, 如果设置为 false（默认值为 true）, 则无法使用 BrowserWindow.webContents.openDevTools()
       webSecurity: false, // 当设置为 false, 将禁用同源策略
@@ -75,7 +76,7 @@ export default class WinMain {
 
     // 启用 remote
     remote.enable(this.winInst.webContents)
-    // AppConfig.IS_DEV_MODE && this.openDevtool()
+    AppConfig.IS_DEV_MODE && this.openDevtool()
 
     // 窗口-准备好显示
     // 在窗口的控制台中使用 F5 刷新时，也会触发该事件
@@ -146,6 +147,9 @@ export default class WinMain {
     })
     ipcMain.on("close", (e) => this.winInst.close())
     ipcMain.on("reload", (e) => this.winInst.reload())
+    ipcMain.handle("is-maximize", (e) => {
+      return this.winInst.isMaximized()
+    })
 
     // new window example arg: new windows url
     ipcMain.handle("open-win", (event, arg) => {

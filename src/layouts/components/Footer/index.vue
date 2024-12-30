@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { APP_TITLE } from "@/hooks/useTitle"
+import dayjs from "dayjs"
 </script>
 
 <template>
-  <footer class="layout-footer">MIT © 2021-PRESENT {{ APP_TITLE }}</footer>
+  <footer class="layout-footer">supersonic {{ dayjs().year() }} {{ APP_TITLE }}</footer>
 </template>
 
 <style lang="scss" scoped>
