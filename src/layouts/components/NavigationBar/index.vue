@@ -23,6 +23,7 @@ const appStore = useAppStore()
 const userStore = useUserStore()
 const settingsStore = useSettingsStore()
 const { showNotify, showThemeSwitch, showScreenfull, showSearchMenu } = storeToRefs(settingsStore)
+const isNotMacOs = ref(process.platform !== "darwin")
 
 /** 切换侧边栏 */
 const toggleSidebar = () => {
@@ -94,15 +95,15 @@ const closeWindow = () => {
         </template>
       </el-dropdown>
 
-      <el-tooltip effect="dark" content="最小化" placement="bottom">
+      <el-tooltip v-if="isNotMacOs" effect="dark" content="最小化" placement="bottom">
         <SvgIcon class="svg-icon" name="minimizing" @click="miniWindow" />
       </el-tooltip>
 
-      <el-tooltip effect="dark" :content="normalMaxTips" placement="bottom">
+      <el-tooltip v-if="isNotMacOs" effect="dark" :content="normalMaxTips" placement="bottom">
         <SvgIcon class="svg-icon" :name="normalMaxSvgName" @click="normalMaxWindow" />
       </el-tooltip>
 
-      <el-tooltip effect="dark" content="关闭" placement="bottom">
+      <el-tooltip v-if="isNotMacOs" effect="dark" content="关闭" placement="bottom">
         <SvgIcon class="close-icon svg-icon" name="close" @click="closeWindow" />
       </el-tooltip>
     </div>

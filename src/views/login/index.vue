@@ -9,10 +9,11 @@ import { type LoginRequestData } from "@/api/login/types/login"
 import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
 import Owl from "./components/Owl.vue"
 import { useFocus } from "./hooks/useFocus"
-const { ipcRenderer } = require("electron")
 
 const router = useRouter()
 const { isFocus, handleBlur, handleFocus } = useFocus()
+
+const isNotMacOs = ref(process.platform !== "darwin")
 
 /** 登录表单元素的引用 */
 const loginFormRef = ref<FormInstance | null>(null)
@@ -79,7 +80,7 @@ createCode()
 
 <template>
   <div class="login-container">
-    <el-tooltip effect="dark" content="关闭" placement="bottom">
+    <el-tooltip v-if="isNotMacOs" effect="dark" content="关闭" placement="bottom">
       <SvgIcon class="close-icon" name="close" @click="closeWindow" />
     </el-tooltip>
 
@@ -193,6 +194,7 @@ createCode()
       align-items: center;
       height: 150px;
       img {
+        margin-top: 50px;
         height: 100%;
       }
     }
