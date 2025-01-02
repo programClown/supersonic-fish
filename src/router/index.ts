@@ -62,72 +62,89 @@ export const constantRoutes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: "/table",
+    path: "/",
     component: Layouts,
-    redirect: "/table/element-plus",
-    name: "Table",
-    meta: {
-      title: "表格",
-      elIcon: "Grid"
-    },
+    redirect: "/animations",
     children: [
       {
-        path: "element-plus",
-        component: () => import("@/views/table/element-plus/index.vue"),
-        name: "ElementPlus",
+        path: "animations",
+        component: () => import("@/views/animations/index.vue"),
+        name: "Animations",
         meta: {
-          title: "Element Plus",
-          keepAlive: true
-        }
-      },
-      {
-        path: "vxe-table",
-        component: () => import("@/views/table/vxe-table/index.vue"),
-        name: "VxeTable",
-        meta: {
-          title: "Vxe Table",
-          keepAlive: true
-        }
-      }
-    ]
-  },
-  {
-    path: "/hook-demo",
-    component: Layouts,
-    redirect: "/hook-demo/use-fetch-select",
-    name: "HookDemo",
-    meta: {
-      title: "Hook",
-      elIcon: "Menu",
-      alwaysShow: true
-    },
-    children: [
-      {
-        path: "use-fetch-select",
-        component: () => import("@/views/hook-demo/use-fetch-select.vue"),
-        name: "UseFetchSelect",
-        meta: {
-          title: "useFetchSelect"
-        }
-      },
-      {
-        path: "use-fullscreen-loading",
-        component: () => import("@/views/hook-demo/use-fullscreen-loading.vue"),
-        name: "UseFullscreenLoading",
-        meta: {
-          title: "useFullscreenLoading"
-        }
-      },
-      {
-        path: "use-watermark",
-        component: () => import("@/views/hook-demo/use-watermark.vue"),
-        name: "UseWatermark",
-        meta: {
-          title: "useWatermark"
+          title: "爱动画",
+          svgIcon: "animations",
+          affix: true
         }
       }
     ]
   }
+  // {
+  //   path: "/table",
+  //   component: Layouts,
+  //   redirect: "/table/element-plus",
+  //   name: "Table",
+  //   meta: {
+  //     title: "表格",
+  //     elIcon: "Grid"
+  //   },
+  //   children: [
+  //     {
+  //       path: "element-plus",
+  //       component: () => import("@/views/table/element-plus/index.vue"),
+  //       name: "ElementPlus",
+  //       meta: {
+  //         title: "Element Plus",
+  //         keepAlive: true
+  //       }
+  //     },
+  //     {
+  //       path: "vxe-table",
+  //       component: () => import("@/views/table/vxe-table/index.vue"),
+  //       name: "VxeTable",
+  //       meta: {
+  //         title: "Vxe Table",
+  //         keepAlive: true
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: "/hook-demo",
+  //   component: Layouts,
+  //   redirect: "/hook-demo/use-fetch-select",
+  //   name: "HookDemo",
+  //   meta: {
+  //     title: "Hook",
+  //     elIcon: "Menu",
+  //     alwaysShow: true
+  //   },
+  //   children: [
+  //     {
+  //       path: "use-fetch-select",
+  //       component: () => import("@/views/hook-demo/use-fetch-select.vue"),
+  //       name: "UseFetchSelect",
+  //       meta: {
+  //         title: "useFetchSelect"
+  //       }
+  //     },
+  //     {
+  //       path: "use-fullscreen-loading",
+  //       component: () => import("@/views/hook-demo/use-fullscreen-loading.vue"),
+  //       name: "UseFullscreenLoading",
+  //       meta: {
+  //         title: "useFullscreenLoading"
+  //       }
+  //     },
+  //     {
+  //       path: "use-watermark",
+  //       component: () => import("@/views/hook-demo/use-watermark.vue"),
+  //       name: "UseWatermark",
+  //       meta: {
+  //         title: "useWatermark"
+  //       }
+  //     }
+  //   ]
+  // }
 ]
 
 export const router = createRouter({
