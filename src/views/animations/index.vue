@@ -17,18 +17,21 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-
+    <el-button type="primary" link @click="copyLink"
+      >{{ githubAniLink }}<el-icon class="el-icon--right"><document-copy /></el-icon
+    ></el-button>
     <component class="ani-componet" :is="currentComponent" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useAnimations } from "@/hooks/useAnimations"
-import { ArrowDown } from "@element-plus/icons-vue"
+import { ArrowDown, DocumentCopy } from "@element-plus/icons-vue"
 import ScatteredDots from "./components/ScatteredDots.vue"
 import SierpinskiLoop from "./components/SierpinskiLoop.vue"
-import { shallowRef } from "vue"
-
+import { h, ref, shallowRef } from "vue"
+import { ElNotification } from "element-plus"
+const { clipboard } = require("electron")
 const { animationList, activeAnimationName } = useAnimations()
 
 interface AnimationComponents {
@@ -53,6 +56,15 @@ activeAnimationName.value = aniComponents[0].name
 const handleClick = (e, name) => {
   activeAnimationName.value = name
   currentComponent.value = aniComponents.find((item) => item.name === name)!.component
+}
+
+const githubAniLink = ref("https://github.com/Bleuje/processing-animations-code")
+const copyLink = () => {
+  clipboard.writeText(githubAniLink.value)
+  ElNotification({
+    title: "复制成功",
+    message: h("i", { style: "color: teal" }, githubAniLink.value)
+  })
 }
 </script>
 <style scoped>
