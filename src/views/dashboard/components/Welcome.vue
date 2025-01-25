@@ -1,13 +1,13 @@
 <template>
   <div class="app-container center">
     <!-- <el-image :src="srcImg" /> -->
-    <div ref="graphContainer" style="width: 800px; height: 600px"></div>
+    <div ref="graphContainer" style="width: 100%; height: 100%"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import srcImg from "@/assets/layouts/logo.png"
-import { onMounted, ref } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
 import * as echarts from "echarts"
 import "echarts-gl"
 
@@ -15,6 +15,12 @@ const graphContainer = ref<HTMLElement | null>(null)
 
 onMounted(() => {
   drawOnCanvas()
+})
+
+onUnmounted(() => {
+  if (myChart) {
+    myChart.dispose()
+  }
 })
 
 interface Node {
@@ -65,11 +71,12 @@ function createEdges(widthCount, heightCount) {
 }
 var nodes = createNodes(50, 50)
 var edges = createEdges(50, 50)
+let myChart: echarts.ECharts | null = null
 
 const drawOnCanvas = () => {
   if (graphContainer.value) {
     // 初始化 ECharts 实例
-    const myChart = echarts.init(graphContainer.value)
+    myChart = echarts.init(graphContainer.value)
 
     // 配置 ECharts 选项
     const option = {
